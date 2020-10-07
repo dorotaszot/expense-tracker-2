@@ -17,18 +17,24 @@ const dummyTransactions = [
 
 const transactions = dummyTransactions;
 
-function showTransactionsDOM() {
-  const sign = (`${transactions.amount}` > 0 ? '+' : '-');
-  console.log(sign);
+function showTransactionsDOM(transaction) {
+  const sign = `${transaction.amount}` > 0 ? '+' : '-';
+  const li = document.createElement('li');
+  li.classList.add('list-item')
+  li.classList.add(`${transaction.amount}` > 0 ? 'li-plus' : 'li-minus');
+  const amount = Math.abs(transaction.amount);
+  console.log(amount);
+  li.innerHTML = `
+    ${transaction.text} <span>${sign}$${amount}</span> <button id='close-btn'>x</button>
+  `;
+  console.log(li);
+  list.appendChild(li);
 };
 
 
 function generateRandomID() {
   return Math.floor(Math.random() * 10000000000000)
 };
-
-console.log(generateRandomID());
-
 
 function init() {
   list.innerHTML = '';

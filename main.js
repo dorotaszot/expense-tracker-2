@@ -23,12 +23,29 @@ function showTransactionsDOM(transaction) {
   li.classList.add('list-item')
   li.classList.add(`${transaction.amount}` > 0 ? 'li-plus' : 'li-minus');
   const amount = Math.abs(transaction.amount);
-  console.log(amount);
+  // console.log(amount);
   li.innerHTML = `
     ${transaction.text} <span>${sign}$${amount}</span> <button id='close-btn'>x</button>
   `;
-  console.log(li);
+  // console.log(li);
   list.appendChild(li);
+};
+
+function updateValues() {
+  const amounts = transactions.map(transaction => transaction.amount);
+
+  balance.textContent = `
+    $${amounts.reduce((acc, item) => (acc += item), 0).toFixed(2)}
+  `;
+
+  const positiveAmounts = amounts
+    .filter(amount => amount > 0)
+    .reduce((acc, item) => (acc += item), 0)
+    .toFixed(2)
+  income.textContent = `$${positiveAmounts}`
+
+
+  console.log(amounts);
 };
 
 
@@ -39,6 +56,7 @@ function generateRandomID() {
 function init() {
   list.innerHTML = '';
   transactions.forEach(showTransactionsDOM);
+  updateValues()
 }
 
 init();

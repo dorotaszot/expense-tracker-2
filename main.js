@@ -44,10 +44,33 @@ function updateValues() {
     .toFixed(2)
   income.textContent = `$${positiveAmounts}`
 
-
-  console.log(amounts);
+  const negativeAmounts = Math.abs(amounts
+    .filter(amount => amount < 0)
+    .reduce((acc, amount) => (acc += amount), 0)
+    .toFixed(2));
+  expense.textContent = `-$${negativeAmounts}`
 };
 
+function addSingleTransaction(e) {
+  e.preventDefault();
+  const inputText = text.value;
+  const inputAmount = +amount.value;
+  const newTransaction = {
+    id: generateRandomID(),
+    text: inputText,
+    amount: inputAmount
+  };
+
+  if (inputText === '' || inputAmount === '') {
+    alert('Please enter text and amount')
+  } else {
+    showTransactionsDOM(newTransaction);
+    transactions.push(newTransaction);
+    updateValues();
+    text.value = '';
+    amount.value = '';
+  }
+}
 
 function generateRandomID() {
   return Math.floor(Math.random() * 10000000000000)
@@ -60,3 +83,5 @@ function init() {
 }
 
 init();
+
+form.addEventListener('submit', addSingleTransaction);
